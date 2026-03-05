@@ -89,7 +89,8 @@
       pointer-events: none; z-index: 0;
       animation: heroGlow 5s ease-in-out infinite;
     }
-    .hero-logo img { width: 260px; border-radius: 20px; position: relative; z-index: 1; clip-path: inset(0 14% 0 14% round 20px); }
+    .hero-logo-crop { width: 187px; overflow: hidden; border-radius: 20px; position: relative; z-index: 1; display: inline-block; }
+    .hero-logo-crop img { width: 260px; display: block; margin-left: -37px; border-radius: 20px; }
     @keyframes heroGlow {
       0%, 100% { opacity: 0.85; transform: translate(-50%,-50%) scale(1); }
       50%       { opacity: 1;    transform: translate(-50%,-50%) scale(1.08); }
@@ -417,7 +418,9 @@
   <div class="hero-content">
     <div class="hero-logo">
       <div class="hero-logo-glow"></div>
-      <img src="kimun2.jpeg" alt="Kimün IA — Inteligencia Artificial &amp; Conocimiento Ancestral">
+      <div class="hero-logo-crop">
+        <img src="kimun2.jpeg" alt="Kimün IA — Inteligencia Artificial &amp; Conocimiento Ancestral">
+      </div>
     </div>
     <p class="hero-eyebrow">Villarrica · La Araucanía · Chile</p>
     <h1>Sabiduría ancestral para la <em>inteligencia</em> del futuro.</h1>
