@@ -70,9 +70,9 @@
       text-align: center;
       position: relative; overflow: hidden;
       padding: 8rem 2rem 4rem;
-      background: rgba(10,21,32,0.82);
+      background: var(--navy2);
     }
-    .hero-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+    .hero-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 998; pointer-events: none; }
     .mapuche-bg {
       position: absolute; inset: 0; z-index: 1;
       opacity: 0.04;
@@ -152,7 +152,7 @@
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* ── QUÉ ES ── */
-    #que-es { background: rgba(13,27,42,0.85); position: relative; overflow: hidden; }
+    #que-es { background: var(--navy); position: relative; overflow: hidden; }
     #que-es::before {
       content: ''; position: absolute; top: -200px; right: -200px;
       width: 600px; height: 600px; border-radius: 50%;
@@ -216,7 +216,7 @@
     .servicio-list li::before { content: '◆'; color: var(--orange); font-size: 0.5rem; margin-top: 0.35rem; flex-shrink: 0; }
 
     /* ── POR QUÉ ── */
-    #por-que { background: rgba(13,27,42,0.85); position: relative; overflow: hidden; }
+    #por-que { background: var(--navy); position: relative; overflow: hidden; }
     #por-que::before, #que-es::after {
       content: ''; position: absolute; inset: 0; z-index: 0;
       pointer-events: none; opacity: 0.03;
@@ -305,7 +305,7 @@
     }
 
     /* ── CONTACTO ── */
-    #contacto { background: rgba(13,27,42,0.85); }
+    #contacto { background: var(--navy); }
     .contacto-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: start; }
     .contacto-info h2 { margin-bottom: 1rem; }
     .contacto-info p { color: rgba(255,255,255,0.65); margin-bottom: 2rem; }
@@ -345,7 +345,7 @@
 
     /* ── FOOTER ── */
     footer {
-      background: rgba(10,21,32,0.88); border-top: 1px solid var(--border);
+      background: var(--navy2); border-top: 1px solid var(--border);
       padding: 3rem 2rem; text-align: center;
     }
     .footer-logo { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-bottom: 1rem; }
