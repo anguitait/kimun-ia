@@ -70,9 +70,9 @@
       text-align: center;
       position: relative; overflow: hidden;
       padding: 8rem 2rem 4rem;
-      background: var(--navy2);
+      background: rgba(10,21,32,0.82);
     }
-    .hero-canvas { position: absolute; inset: 0; z-index: 0; }
+    .hero-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
     .mapuche-bg {
       position: absolute; inset: 0; z-index: 1;
       opacity: 0.04;
@@ -152,7 +152,7 @@
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* ── QUÉ ES ── */
-    #que-es { background: var(--navy); position: relative; overflow: hidden; }
+    #que-es { background: rgba(13,27,42,0.85); position: relative; overflow: hidden; }
     #que-es::before {
       content: ''; position: absolute; top: -200px; right: -200px;
       width: 600px; height: 600px; border-radius: 50%;
@@ -216,7 +216,7 @@
     .servicio-list li::before { content: '◆'; color: var(--orange); font-size: 0.5rem; margin-top: 0.35rem; flex-shrink: 0; }
 
     /* ── POR QUÉ ── */
-    #por-que { background: var(--navy); position: relative; overflow: hidden; }
+    #por-que { background: rgba(13,27,42,0.85); position: relative; overflow: hidden; }
     #por-que::before, #que-es::after {
       content: ''; position: absolute; inset: 0; z-index: 0;
       pointer-events: none; opacity: 0.03;
@@ -305,7 +305,7 @@
     }
 
     /* ── CONTACTO ── */
-    #contacto { background: var(--navy); }
+    #contacto { background: rgba(13,27,42,0.85); }
     .contacto-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: start; }
     .contacto-info h2 { margin-bottom: 1rem; }
     .contacto-info p { color: rgba(255,255,255,0.65); margin-bottom: 2rem; }
@@ -345,7 +345,7 @@
 
     /* ── FOOTER ── */
     footer {
-      background: var(--navy2); border-top: 1px solid var(--border);
+      background: rgba(10,21,32,0.88); border-top: 1px solid var(--border);
       padding: 3rem 2rem; text-align: center;
     }
     .footer-logo { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-bottom: 1rem; }
@@ -393,6 +393,8 @@
 </head>
 <body>
 
+<canvas class="hero-canvas" id="neuralCanvas"></canvas>
+
 <!-- ══════════════ NAV ══════════════ -->
 <nav id="nav">
   <a href="#inicio" class="nav-logo">
@@ -414,7 +416,6 @@
 <!-- ══════════════ HERO ══════════════ -->
 <section id="inicio">
   <div class="mapuche-bg"></div>
-  <canvas class="hero-canvas" id="neuralCanvas"></canvas>
   <div class="hero-content">
     <div class="hero-logo">
       <div class="hero-logo-glow"></div>
@@ -936,19 +937,18 @@
     let mouse = { x: -999, y: -999, active: false };
 
     function resize() {
-      W = canvas.width = canvas.offsetWidth;
-      H = canvas.height = canvas.offsetHeight;
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
     }
     window.addEventListener('resize', resize);
     resize();
 
-    canvas.addEventListener('mousemove', e => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
       mouse.active = true;
     });
-    canvas.addEventListener('mouseleave', () => { mouse.active = false; mouse.x = -999; mouse.y = -999; });
+    document.addEventListener('mouseleave', () => { mouse.active = false; });
 
     const COUNT = 55;
     for (let i = 0; i < COUNT; i++) {
