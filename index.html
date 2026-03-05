@@ -80,8 +80,20 @@
       background-size: 280px 280px;
     }
     .hero-content { position: relative; z-index: 2; max-width: 780px; }
-    .hero-logo { margin-bottom: 2.5rem; animation: fadeDown 1s ease both; }
-    .hero-logo img { width: 260px; border-radius: 20px; filter: drop-shadow(0 0 50px rgba(46,91,63,0.6)) drop-shadow(0 0 20px rgba(230,92,0,0.2)); clip-path: inset(0 14% 0 14%); }
+    .hero-logo { margin-bottom: 2.5rem; animation: fadeDown 1s ease both; position: relative; display: inline-block; }
+    .hero-logo-glow {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 420px; height: 320px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(46,91,63,0.55) 0%, rgba(46,91,63,0.3) 30%, rgba(26,75,140,0.12) 55%, transparent 72%);
+      pointer-events: none; z-index: 0;
+      animation: heroGlow 5s ease-in-out infinite;
+    }
+    .hero-logo img { width: 260px; border-radius: 20px; position: relative; z-index: 1; clip-path: inset(0 14% 0 14% round 20px); }
+    @keyframes heroGlow {
+      0%, 100% { opacity: 0.85; transform: translate(-50%,-50%) scale(1); }
+      50%       { opacity: 1;    transform: translate(-50%,-50%) scale(1.08); }
+    }
     .hero-eyebrow {
       font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 700;
       letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange);
@@ -404,6 +416,7 @@
   <canvas class="hero-canvas" id="neuralCanvas"></canvas>
   <div class="hero-content">
     <div class="hero-logo">
+      <div class="hero-logo-glow"></div>
       <img src="kimun2.jpeg" alt="Kimün IA — Inteligencia Artificial &amp; Conocimiento Ancestral">
     </div>
     <p class="hero-eyebrow">Villarrica · La Araucanía · Chile</p>
@@ -952,24 +965,48 @@
           const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
           const dist = Math.sqrt(dx*dx + dy*dy);
           if (dist < MAX_DIST) {
-            const alpha = (1 - dist / MAX_DIST) * 0.18;
+            const alpha = (1 - dist / MAX_DIST) * 0.22;
+            ctx.shadowBlur = 4;
+            ctx.shadowColor = `rgba(46,91,63,${alpha * 2})`;
             ctx.beginPath();
             ctx.strokeStyle = `rgba(46,91,63,${alpha})`;
-            ctx.lineWidth = 0.8;
+            ctx.lineWidth = 0.7;
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
             ctx.stroke();
+            ctx.shadowBlur = 0;
           }
         }
       }
-      // Draw nodes
+      // Draw nodes with glow (bulb effect)
       nodes.forEach(n => {
         const pr = n.r + Math.sin(n.pulse) * 0.8;
+        const isOrange = n.color === '#E65C00';
+        // Outer halo
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, pr * 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = n.color;
+        ctx.globalAlpha = isOrange ? 0.07 : 0.04;
+        ctx.fill();
+        // Mid glow
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, pr * 2, 0, Math.PI * 2);
+        ctx.globalAlpha = isOrange ? 0.15 : 0.08;
+        ctx.fill();
+        // Bright core with shadow
+        ctx.shadowBlur = isOrange ? 14 : 8;
+        ctx.shadowColor = n.color;
         ctx.beginPath();
         ctx.arc(n.x, n.y, pr, 0, Math.PI * 2);
-        ctx.fillStyle = n.color;
-        ctx.globalAlpha = n.color === '#E65C00' ? 0.75 : 0.45;
+        ctx.globalAlpha = isOrange ? 0.9 : 0.6;
         ctx.fill();
+        // Tiny bright center
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, pr * 0.4, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.globalAlpha = isOrange ? 0.6 : 0.25;
+        ctx.fill();
+        ctx.shadowBlur = 0;
         ctx.globalAlpha = 1;
       });
       requestAnimationFrame(draw);
